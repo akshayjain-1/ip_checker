@@ -18,16 +18,16 @@ The IP Information Checker is a Python script designed to retrieve detailed info
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/ip_checker_project.git
-   cd ip_checker_project```
+   cd ip_checker_project
 
 2. Install the required Python packages:
     ```bash
-    pip install -r requirements.txt```
+    pip install -r requirements.txt
 
 3. Set up environment variables for API keys:
     ```bash
     export ABUSEIPDB_API_KEY="your_abuseipdb_api_key"
-    export VIRUSTOTAL_API_KEY="your_virustotal_api_key"```
+    export VIRUSTOTAL_API_KEY="your_virustotal_api_key"
 
 ## Usage
 
