@@ -1,22 +1,31 @@
+"""
+IP Information Checker Module
+This module provides a command-line interface (CLI) tool to retrieve IP information 
+from various APIs, including ipinfo.io, ipapi.co, AbuseIPDB, and VirusTotal.
+"""
+# pylint:disable=wildcard-import, unused-wildcard-import, logging-fstring-interpolation, unnecessary-lambda
 from argparse import ArgumentParser
-import json
-import requests
-from tenacity import *
-import asyncio
-import aiohttp
 import ipaddress
 import logging
 import os
 import sys
 import time
+import asyncio
+import json
+import aiohttp
+from tenacity import *
+import requests
 
-
+# pylint:disable=line-too-long
 # Configure logging
 logging.basicConfig(filename='ip_checker.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 API_TIMEOUT = 10  # seconds
 
 def display_menu():
+    """
+    Prints a menu with options to check IP information using different APIs.
+    """
     print("\n--- IP Information Checker ---")
     print("1. Check IP using ipinfo.io")
     print("2. Check IP using ipapi.co")
@@ -25,10 +34,25 @@ def display_menu():
     print("5. Exit")
 
 def enforce_rate_limit():
+    """
+    This function is used to prevent excessive API requests and avoid rate limiting.
+    """
     time.sleep(5)  # Add 5 seconds delay between requests
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 async def check_ip_ipinfo(ip):
+    """
+    Retrieves IP information from ipinfo.io.
+
+    Args:
+        ip (str): The IP address to check.
+
+    Returns:
+        dict: The IP information from ipinfo.io.
+
+    Raises:
+        Exception: If the API request fails.
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(f"https://ipinfo.io/{ip}/json", timeout=API_TIMEOUT) as response:
             if response.status == 200:
@@ -42,6 +66,18 @@ async def check_ip_ipinfo(ip):
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 async def check_ip_ipapi(ip):
+    """
+    Retrieves IP information from ipapi.co.
+
+    Args:
+        ip (str): The IP address to check.
+
+    Returns:
+        dict: The IP information from ipapi.co.
+
+    Raises:
+        Exception: If the API request fails.
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(f"https://ipapi.co/{ip}/json", timeout=API_TIMEOUT) as response:
             if response.status == 200:
@@ -55,6 +91,19 @@ async def check_ip_ipapi(ip):
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def check_ip_abuseipdb(ip, api_key):
+    """
+    Retrieves IP information from AbuseIPDB.
+
+    Args:
+        ip (str): The IP address to check.
+        api_key (str): The AbuseIPDB API key.
+
+    Returns:
+        dict: The IP information from AbuseIPDB.
+
+    Raises:
+        Exception: If the API request fails.
+    """
     url = "https://api.abuseipdb.com/api/v2/check"
     querystring = {"ipAddress": ip, "maxAgeInDays": "90"}
     headers = {"Accept": "application/json", "Key": api_key}
@@ -71,6 +120,19 @@ def check_ip_abuseipdb(ip, api_key):
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def check_ip_virustotal(ip, api_key):
+    """
+    Retrieves IP information from VirusTotal.
+
+    Args:
+        ip (str): The IP address to check.
+        api_key (str): The VirusTotal API key.
+
+    Returns:
+        dict: The IP information from VirusTotal.
+
+    Raises:
+        Exception: If the API request fails.
+    """
     url = "https://www.virustotal.com/vtapi/v2/ip-address/report"
     params = {'apikey': api_key, 'ip': ip}
     try:
@@ -85,6 +147,16 @@ def check_ip_virustotal(ip, api_key):
         print(f"Error retrieving data from VirusTotal: {e}")
 
 def check_ip_details(choice, ip):
+    """
+    Function for mapping user input to different function
+
+    Args:
+        ip (str): The IP address to check.
+        choice (str): User selected choice from menu
+
+    Raises:
+        Exception: If the provided option is invalid.
+    """
     api_key_abuseipdb = os.getenv("ABUSEIPDB_API_KEY")
     api_key_virustotal = os.getenv("VIRUSTOTAL_API_KEY")
 
@@ -104,6 +176,14 @@ def check_ip_details(choice, ip):
         print("Invalid option. Please choose again.")
 
 def validate_ip(ip):
+    """
+    Validate the IP address.
+    Args:
+        ip (str): The IP address to check.
+
+    Raises:
+        Exception: If the IP Address is invalid.
+    """
     try:
         ipaddress.ip_address(ip)
         return True
@@ -113,17 +193,23 @@ def validate_ip(ip):
         return False
 
 def get_cli_arguments():
+    """
+    Extract the ip address from the CLI arguement
+    """
     parser = ArgumentParser(description="IP Information Checker")
     parser.add_argument("ip", help="IP address to check")
     return parser.parse_args()
 
 def main():
+    """
+    Main function
+    """
     ip_arg = get_cli_arguments()
     ip_value = ip_arg.ip
 
     if not validate_ip(ip_value):
         return
-    
+
     while True:
         display_menu()
         option = input("Select a tool (1-5): ")
