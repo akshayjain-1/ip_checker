@@ -17,7 +17,7 @@ The IP Information Checker is a Python script designed to retrieve detailed info
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ip_checker_project.git
+   git clone https://github.com/akshayjain-1/ip_checker.git
    cd ip_checker_project
 
 2. Install the required Python packages:
