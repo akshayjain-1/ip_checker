@@ -3,7 +3,7 @@ IP Information Checker Module
 This module provides a command-line interface (CLI) tool to retrieve IP information 
 from various APIs, including ipinfo.io, ipapi.co, AbuseIPDB, and VirusTotal.
 """
-# pylint:disable=wildcard-import, unused-wildcard-import, logging-fstring-interpolation, unnecessary-lambda
+# pylint:disable=wildcard-import, unused-wildcard-import, logging-fstring-interpolation, unnecessary-lambda, reportMissingImports
 from argparse import ArgumentParser
 import ipaddress
 import logging

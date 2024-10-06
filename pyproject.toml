@@ -1,31 +1,20 @@
-[
-tool.poetry
-]
-name = "ip-information-checker"
+[tool.poetry]
+name = "ip-checker"
 version = "1.0.0"
+description = "A package to check IP information"
+authors = ["Akshay Jain <aj2812@gmail.com>"]
 
-[
-tool.poetry.dependencies
-]
+[tool.poetry.dependencies]
 python = "^3.9"
 aiohttp = "^3.8.1"
 requests = "^2.27.1"
 tenacity = "^8.0.1"
 ipaddress = "^1.0.23"
-json = "^2.0.9"
-os = "^0.1.1"
-sys = "^0.1.1"
-time = "^0.1.1"
-logging = "^0.5.1.2"
 argparse = "^1.4.0"
 
-[
-tool.poetry.dev-dependencies
-]
+[tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 
-[
-build-system
-]
+[build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
