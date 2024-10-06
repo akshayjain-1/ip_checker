@@ -1,5 +1,15 @@
 # IP Information Checker
 
+A command-line interface (CLI) tool to retrieve IP information from various APIs, including ipinfo.io, ipapi.co, AbuseIPDB, and VirusTotal.
+
+## Table of Contents
+
+* [Description](#description)
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Future Work](#future-work)
+
 ## Description
 
 The IP Information Checker is a Python script designed to retrieve detailed information about IP addresses from various free and reputable sources. The tool supports multiple services including ipinfo.io, ipapi.co, AbuseIPDB, and VirusTotal. It features a menu-driven interface, supports asynchronous API calls.
@@ -15,23 +25,30 @@ The IP Information Checker is a Python script designed to retrieve detailed info
 
 ## Installation
 
-1. Clone the repository:
+1. Install Poetry: 
+    ```bash 
+    pip install poetry
+2. Clone the repository:
    ```bash
    git clone https://github.com/akshayjain-1/ip_checker.git
    cd ip_checker
 
-2. Install the required Python packages:
+3. Navigate to the project directory:
     ```bash
-    pip install -r requirements.txt
+    cd ip_checker
 
-3. Set up environment variables for API keys:
+4. Install dependencies:
+    ```bash
+    poetry install
+
+5. Set up environment variables for API keys:
     ```bash
     export ABUSEIPDB_API_KEY="your_abuseipdb_api_key"
     export VIRUSTOTAL_API_KEY="your_virustotal_api_key"
 
 ## Usage
 
-```python ip_checker.py <IP_ADDRESS>```
+```poetry run python ip_checker.py <IP_ADDRESS>```
 
 
 ## Future Work
